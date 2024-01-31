@@ -30,7 +30,7 @@ const secret = "secret";
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(cors({ credentials: true, origin: "*" }));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -224,4 +224,6 @@ app.put("/jokes/:id", auth, async (req, res) => {
   }
 });
 
-app.listen(4000, () => console.log("Server running on port 4000"));
+const port = process.env.PORT || 4000;
+
+app.listen(port, () => console.log(`Server running on port ${port}`));
