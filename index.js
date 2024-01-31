@@ -38,6 +38,10 @@ mongoose.connect(
   `mongodb+srv://blog:${password}@blog.fz13thm.mongodb.net/?retryWrites=true&w=majority`
 );
 
+app.post("/test", async (req, res) => {
+  res.status(200).json({ msg: "yes!!!" });
+});
+
 app.post("/register", async (req, res) => {
   const { username, password, email } = req.body;
   try {
