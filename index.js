@@ -30,7 +30,7 @@ const secret = "secret";
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(cors({ credentials: true, origin: ["http://localhost:4000", "https://joke-server.onrender.com"] }));
+app.use(cors({ credentials: true, origin: ["http://localhost:4000", "https://joke-client.vercel.app"] }));
 app.use(express.json());
 app.use(cookieParser());
 
