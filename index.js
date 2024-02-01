@@ -36,7 +36,7 @@ app.use(
     origin: ["http://localhost:4000", "https://joke-client.vercel.app"],
   })
 );
-// app.options('*', cors());
+app.options('*', cors());
 app.use(express.json());
 app.use(cookieParser());
 
