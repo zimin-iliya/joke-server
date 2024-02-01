@@ -30,9 +30,19 @@ const secret = "secret";
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(cors({ credentials: true, origin: ["http://localhost:4000", "https://joke-client.vercel.app"] }));
+app.use(
+  cors({
+    credentials: true,
+    origin: ["http://localhost:4000", "https://joke-client.vercel.app"],
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
+
+app.options('*', cors({
+  credentials: true,
+  origin: ["http://localhost:4000", "https://joke-client.vercel.app"],
+}));
 
 mongoose.connect(
   `mongodb+srv://blog:${password}@blog.fz13thm.mongodb.net/?retryWrites=true&w=majority`
@@ -88,8 +98,6 @@ app.get("/jokes", async (req, res) => {
   }
 });
 
-
-
 app.get("/profile", auth, (req, res) => {
   const token = req.cookies.token;
   jwt.verify(token, secret, (err, info) => {
@@ -131,7 +139,7 @@ app.get("/avatars", async (req, res) => {
 app.post("/upload", auth, upload.single("image"), async (req, res) => {
   try {
     const userId = req.user.userId;
-    const username = (req.user.username).toLowerCase();
+    const username = req.user.username.toLowerCase();
     const { data, error } = await supabase.storage
       .from("avatar")
       .upload(`${userId}.jpg`, req.file.buffer, {
