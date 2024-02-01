@@ -36,13 +36,11 @@ app.use(
     origin: ["http://localhost:4000", "https://joke-client.vercel.app"],
   })
 );
+app.options('*', cors());
 app.use(express.json());
 app.use(cookieParser());
 
-app.options('*', cors({
-  credentials: true,
-  origin: ["http://localhost:4000", "https://joke-client.vercel.app"],
-}));
+
 
 mongoose.connect(
   `mongodb+srv://blog:${password}@blog.fz13thm.mongodb.net/?retryWrites=true&w=majority`
