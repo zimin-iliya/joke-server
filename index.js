@@ -36,7 +36,7 @@ app.use(
     origin: ["http://localhost:4000", "https://joke-client.vercel.app"],
   })
 );
-app.options('*', cors());
+// app.options('*', cors());
 app.use(express.json());
 app.use(cookieParser());
 
@@ -74,7 +74,7 @@ app.post("/login", async (req, res) => {
       if (err) {
         res.status(500).json({ message: "Error signing token" });
       } else {
-        res.cookie("token", token).json({ id: userDoc._id, username });
+        res.cookie("token", token).json({ id: userDoc._id, username },{secure : true});
       }
     });
   } else {
