@@ -36,11 +36,9 @@ app.use(
     origin: ["http://localhost:4000", "https://joke-client.vercel.app"],
   })
 );
-app.options('*', cors());
+app.options("*", cors());
 app.use(express.json());
 app.use(cookieParser());
-
-
 
 mongoose.connect(
   `mongodb+srv://blog:${password}@blog.fz13thm.mongodb.net/?retryWrites=true&w=majority`
@@ -70,13 +68,25 @@ app.post("/login", async (req, res) => {
   }
   const passOk = bcrypt.compareSync(password, userDoc.password);
   if (passOk) {
-    jwt.sign({ username, userId: userDoc._id }, secret, (err, token) => {
-      if (err) {
-        res.status(500).json({ message: "Error signing token" });
-      } else {
-        res.cookie("token", token, { sameSite: 'None', secure: true }).json({ id: userDoc._id, username });
+    jwt.sign(
+      { username, userId: userDoc._id },
+      secret,
+      { expiresIn: "1h" },
+      (err, token) => {
+        if (err) {
+          res.status(500).json({ message: "Error signing token" });
+        } else {
+          res
+            .cookie(
+              "token",
+              token,
+
+              { httpOnly: true, sameSite: "None", secure: true }
+            )
+            .json({ id: userDoc._id, username });
+        }
       }
-    });
+    );
   } else {
     res.status(401).json({ message: "You are not logged in" });
   }
