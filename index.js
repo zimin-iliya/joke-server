@@ -82,8 +82,9 @@ app.post("/login", async (req, res) => {
         } else {
           res
             .cookie("token", token, {
-              secure: true,
               sameSite: "None",
+              httpOnly: true,
+              domain: "https://joke-client.vercel.app",
             })
             .json({ id: userDoc._id, username });
         }
