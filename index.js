@@ -31,7 +31,8 @@ app.use(
   cors({
     credentials: true,
     origin: [
-      "https://localhost:4000",
+      "http://localhost:4000",
+      "http://localhost:3000",
       "https://localhost:3000",
       "https://joke-client.vercel.app",
     ],
@@ -82,9 +83,10 @@ app.post("/login", async (req, res) => {
         } else {
           res
             .cookie("token", token, {
+              secure: true,
               sameSite: "None",
               httpOnly: true,
-              domain: "joke-server.onrender.com",
+              // domain: "joke-server.onrender.com",
             })
             .json({ id: userDoc._id, username });
         }
@@ -187,6 +189,7 @@ app.get("/jokes/me", auth, async (req, res) => {
 });
 
 app.post("/create", auth, upload.none(), async (req, res) => {
+  console.log("this is create",req.body);
   const { title, content, username } = req.body;
   const userId = req.user.userId;
 
