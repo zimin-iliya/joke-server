@@ -27,15 +27,19 @@ const password = process.env.PASSWORD;
 const salt = bcrypt.genSaltSync(10);
 const secret = "secret";
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:4000", "https://joke-client.vercel.app"],
+    origin: [
+      "https://localhost:4000",
+      "https://localhost:3000",
+      "https://joke-client.vercel.app",
+    ],
   })
 );
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.options("*", cors());
 app.use(express.json());
 app.use(cookieParser());
@@ -77,11 +81,10 @@ app.post("/login", async (req, res) => {
           res.status(500).json({ message: "Error signing token" });
         } else {
           res
-            .cookie(
-              "token",
-              token,
-              { httpOnly: true, secure: true, sameSite: "None" }
-            )
+            .cookie("token", token, {
+              secure: true,
+              sameSite: "None",
+            })
             .json({ id: userDoc._id, username });
         }
       }
