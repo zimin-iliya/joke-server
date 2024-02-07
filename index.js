@@ -86,6 +86,7 @@ app.post("/login", async (req, res) => {
               secure: true,
               sameSite: "None",
               httpOnly: true,
+              domain: "joke-client.vercel.app",
               // domain: "joke-server.onrender.com",
             })
             .json({ id: userDoc._id, username });
